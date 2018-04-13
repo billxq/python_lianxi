@@ -56,6 +56,7 @@ class GetMeiZiTu(object):
                     with open(path, 'wb') as f:
                         f.write(content)
                     print("{}  已下载".format(url))
+                time.sleep(1)
             except Exception as e:
                 print(e)
         else:
@@ -68,5 +69,4 @@ if __name__ == "__main__":
     for single_sets in getmeizitu.get_all_sets():
         pic_url_list = getmeizitu.get_single_set_pages(single_sets)
         getmeizitu.download_set_pics(pic_url_list)
-        time.sleep(5)
         print(getmeizitu.title + "套图已下载！等待5秒进入下一套图的下载！")
