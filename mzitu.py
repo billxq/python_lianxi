@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+# author : Bill
+# date : 2018-04-16
 import os
 from hashlib import md5
 import requests
