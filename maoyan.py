@@ -8,8 +8,8 @@ import json
 
 def db_connect():
     db_data = {
-        "host":"10.148.60.26",
-        "port":3306,
+        "host":"fishxq.gicp.net",
+        "port":6106,
         "user":"python",
         "passwd":"123456",
         "db":"python",
@@ -39,11 +39,11 @@ class GetMaoYan100(object):
             }
 
 if __name__ == "__main__":
-    urls = ['https://maoyan.com/board/4?offset={}'.format(str(i)) for i in range(0,100,10)]
+    urls = ['http://maoyan.com/board/4?offset={}'.format(str(i)) for i in range(0,100,10)]
     getmaoyan100 = GetMaoYan100()
     db = db_connect()
     cur = db.cursor()
-    sql = """create table Maoyan(Title char(40),
+    sql = """create table if not exists Maoyan(Title char(40),
              Actors char(40),
             Releasetime char(40)) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_bin
             AUTO_INCREMENT=1"""
