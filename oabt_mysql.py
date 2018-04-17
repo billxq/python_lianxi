@@ -9,8 +9,8 @@ import pymysql
 
 def db_connect():
     db_data = {
-        "host":"10.148.60.26",
-        "port":3306,
+        "host":"fishxq.gicp.net",
+        "port":6106,
         "user":"python",
         "passwd":"123456",
         "db":"python",
