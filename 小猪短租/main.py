@@ -69,8 +69,8 @@ def main():
                 Rating text not null)ENGINE=INNODB DEFAULT CHARSET=utf8 auto_increment=1
     ''')
     url_list = ['http://sh.xiaozhu.com/%E5%BE%90%E6%B3%BE%E4%B8%9C_uw2a6d-duanzufang-p{}-20/?putkey=%E5%BE%90%E6%B3%BE%E4%B8%9C'.format(str(i)) for i in range(1,10)]
+    i = 1
     for url in url_list:
-        i = 1
         for item in xiaozhu.getDetails(url):
             sql = '''insert into Xiaozhu(Title,Price,Url,Type,Rating)
                   values("{}","{}","{}","{}","{}")
@@ -82,8 +82,8 @@ def main():
             except Exception as e:
                 print(e)
                 db.rollback()
-            print("Page {} success".format(i))
-            i += 1
+        print("Page {} success".format(i))
+        i += 1
     db.close()
 
 
