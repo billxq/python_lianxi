@@ -6,4 +6,5 @@
 - shutil.copystat( src, dst) 复制权限、最后访问时间、最后修改时间
 - shutil.copy( src, dst)  复制一个文件到一个文件或一个目录
 - shutil.copy2( src, dst)  在copy上的基础上再复制文件最后访问时间与修改时间也复制过来了，类似于cp –p的东西
-
+- shutil.unpack_archive(f,target_path)  把压缩包文件f解压到target_path中
+- shutil.make_archive(path1, 'zip', path2)  其中 path1 是生成压缩包的路径（包含压缩包名称），path2是需要被压缩的文件夹。
