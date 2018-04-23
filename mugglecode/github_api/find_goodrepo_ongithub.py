@@ -9,3 +9,7 @@
 利用github的api接口进行查询：https://api.github.com/search/repositories?q=
 """
 
+import time
+import datetime
+a = datetime.datetime.now()-datetime.timedelta(days=7)
+print(a)
