@@ -88,4 +88,10 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    db = db_connect()
+    cur = db.cursor()
+    cur.execute('select Title from Xiaozhu;')
+    results = cur.fetchall()
+    for result in results:
+        print(result)

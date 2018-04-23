@@ -28,6 +28,7 @@ while 1:
             starred.append(result['id'])
             url = result['html_url']
             webbrowser.open()
+        print(result['html_url'])
     time.sleep(600)
 
 
