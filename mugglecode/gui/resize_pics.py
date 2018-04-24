@@ -23,7 +23,7 @@ def make_app():
     Label(app,text='resize pictures',font=('hack',20,'bold')).pack()
     Listbox(app,name='lbox',bg='#f2f2f2',fg='black').pack(fill=BOTH,expand=True)
     Button(app,text='open',command=get_uidata).pack()
-    Button(app,text='100x100',command=resize_pic).pack()
+    Button(app,text='resize',command=resize_pic).pack()
     app.geometry('300x400')
     return app
 
