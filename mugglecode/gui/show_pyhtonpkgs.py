@@ -21,5 +21,4 @@ listbox.pack(fill=BOTH,expand=True)
 pkgs = pip.get_installed_distributions()
 for pkg in pkgs:
     listbox.insert(END,pkg.key)
-app.mainloop()1.利用pip库中的get_installed_distributions函数，获取第三方库的列表。
-2.利用tkinter库中的listbox组件，将列表显示在窗口中。
+app.mainloop()

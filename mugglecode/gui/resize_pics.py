@@ -27,7 +27,6 @@ def make_app():
     app.geometry('300x400')
     return app
 
-
 def get_uidata():
     f_name = askopenfilenames()
     info['path'] = f_name
@@ -47,4 +46,3 @@ def resize_pic():
 
 app = make_app()
 app.mainloop()
-
