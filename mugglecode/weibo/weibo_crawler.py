@@ -41,14 +41,14 @@ def get_details(driver):
                 "点赞数": weibo_like
             }
 
-def write_csv(content):
-    if not os.path.exists('./result.csv'):
-        with open('./result.csv','w+',encoding='utf-8') as f:
+def write_csv(content,name):
+    if not os.path.exists(f'./{name}.csv'):
+        with open(f'./{name}.csv','w+',encoding='utf-8') as f:
             writer = csv.writer(f)
             writer.writerow(("微博昵称", "微博地址", "发布时间", "微博内容", "转发数", "评论数", "点赞数"))
             writer.writerow(content)
     else:
-        with open('./result.csv', 'a', encoding='utf-8') as f:
+        with open(f'./{name}.csv', 'a', encoding='utf-8') as f:
             writer = csv.writer(f)
             writer.writerow(content)
 
@@ -69,12 +69,12 @@ def find_next_page(driver):
 
 
 
-def main(q_url):
+def main(q_url,name):
     # driver = start_chrome()
     driver.get(q_url)
     driver.implicitly_wait(10)
     for result in get_details(driver):
-        write_csv((v for v in result.values()))
+        write_csv((v for v in result.values()),name)
     time.sleep(5)
     if find_next_page(driver):
         return main(find_next_page(driver))
@@ -93,6 +93,6 @@ if __name__ == '__main__':
     driver = start_chrome()
     driver.get(login_url)
     time.sleep(20)
-    q_url = q("迪丽热巴","2018-05-01:2018-05-01")
-    main(q_url)
+    q_url = q("中兴","2018-05-01:2018-05-01")
+    main(q_url,"中兴")
 
