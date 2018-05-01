@@ -44,8 +44,9 @@ if __name__ == '__main__':
     driver = start_chrome()
     driver.get(q_url)
     driver.implicitly_wait(10)
-    for result in get_details(driver):
-        for k in result.keys():
-            write_csv([k,result[k]])
-        write_csv('\n')
+    with open('./weibo.csv','w+') as f:
+        writer = csv.writer(f)
+        writer.writerow(("微博昵称","微博地址","发布时间","微博内容","转发数","评论数","点赞数"))
+        for result in get_details(driver):
+            writer.writerow((v for v in result.values()))
 
