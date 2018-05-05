@@ -29,11 +29,54 @@ def write_file(path,data):
 def append_to_file(path,data):
     with open(path,'a') as file:
         file.write(data + '\n')
-        
+
 # Delete contents of a file
 def delete_file_contents(path):
     with open(path,'w'):
         pass
+
+# Read a file and convert each line to set items
+def file_to_set(file_name):
+    results = set()
+    with open(file_name,'rt') as file:
+        for line in file:
+            results.add(line.replace('\n',''))
+    return results
+
+# Iterable through a set,each item will be a new line in a file
+def set_to_file(links,file):
+    delete_file_contents(file)
+    for link in sorted(links):
+        append_to_file(file,link)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
