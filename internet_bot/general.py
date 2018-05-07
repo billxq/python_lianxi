@@ -44,15 +44,18 @@ def getInfo(model_url):
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
     }
-    res = requests.get(model_url,headers=headers).text
-    soup = BeautifulSoup(res,'lxml')
-    mm_name = soup.select('dd > a:nth-of-type(1)')[0].get_text()
-    pic_path = create_dirs(mm_name)
-    for link in soup.find_all('img'):
-        if link.get('src').strip() != "":
-            pic_url = "http:" + link.get('src').strip()
-            save_imgs(pic_url,pic_path)
-            print("正在下载：  " + link.get('src').strip())
+    try:
+        res = requests.get(model_url,headers=headers).text
+        soup = BeautifulSoup(res,'lxml')
+        mm_name = soup.select('dd > a:nth-of-type(1)')[0].get_text()
+        pic_path = create_dirs(mm_name)
+        for link in soup.find_all('img'):
+            if link.get('src').strip() != "":
+                pic_url = "http:" + link.get('src').strip()
+                save_imgs(pic_url,pic_path)
+                print("正在下载：  " + link.get('src').strip())
+    except Exception as e:
+        print(e)
 
 def save_imgs(pic_url,pic_path):
     headers = {
@@ -67,9 +70,9 @@ def save_imgs(pic_url,pic_path):
 
 
 if __name__ == '__main__':
-    pool = Pool(processes=2)
+    pool = Pool(processes=3)
     url = 'https://mm.taobao.com/tstar/search/tstar_model.do?_input_charset=utf-8'
-    for pn in range(1,2):
+    for pn in range(2,3):
         getAllPages(url,pn)
         print(f'Crawling page {pn} now...')
         time.sleep(1)
