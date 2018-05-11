@@ -71,6 +71,9 @@ class MeituluDownloaderMiddleware(object):
     def process_request(self, request, spider):
         # Called for each request that goes through the downloader
         # middleware.
+        referer = request.meta.get('referer', None)
+        if referer:
+            request.headers['referer'] = referer
 
         # Must either:
         # - return None: continue processing this request
@@ -78,7 +81,7 @@ class MeituluDownloaderMiddleware(object):
         # - or return a Request object
         # - or raise IgnoreRequest: process_exception() methods of
         #   installed downloader middleware will be called
-        return None
+        # return None
 
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.
@@ -101,3 +104,15 @@ class MeituluDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+
+class MeiTuLu(object):
+    def process_request(self, request, spider):
+        '''设置headers和切换请求头
+        :param request: 请求体
+        :param spider: spider对象
+        :return: None
+        '''
+        referer = request.meta.get('referer', None)
+        if referer:
+            request.headers['referer'] = referer

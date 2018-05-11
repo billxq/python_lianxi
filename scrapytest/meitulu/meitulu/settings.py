@@ -40,6 +40,7 @@ ROBOTSTXT_OBEY = False
 
 # Override the default request headers:
 DEFAULT_REQUEST_HEADERS = {
+    'Referer':'https://www.meitulu.com/t/toutiaonvshen/',
     'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36',
    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
 #   'Accept-Language': 'en',
@@ -53,9 +54,9 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'meitulu.middlewares.MeituluDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    'meitulu.middlewares.MeiTuLu': 543,
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -68,6 +69,8 @@ DEFAULT_REQUEST_HEADERS = {
 ITEM_PIPELINES = {
     'meitulu.pipelines.MeituluPipeline': 300,
 }
+
+IMAGES_STORE = './meitulu/'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html

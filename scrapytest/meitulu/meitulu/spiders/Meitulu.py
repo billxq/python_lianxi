@@ -29,32 +29,17 @@ class MeituluSpider(CrawlSpider):
 
 
     def parse_pages(self,response):
-        # 解析图片地址所在的详情页
-        if response.xpath('//div[@id="pages"]//a[last()-1]/text()'):
-            # 详情页最大页数
+        try:
+            item = MeituluItem()
+            item['title'] = response.xpath('//h1/text()').extract_first()
             max_num = response.xpath('//div[@id="pages"]//a[last()-1]/text()').extract_first(default="N/A")
-
-        page_urls = [ response.url[:-5] + '_{}.html'.format(i) for i in range(2,int(max_num)+1)]
-        for page_url in page_urls:
-            res = scrapy.Request(page_url)
-            for img_url in res.xpath('//div[@class="content"]//img/@src').extract():
-                self.img_urls.append(img_url)
-        print(self.img_urls)
-
-    #
-    # def parse_items(self,response):
-    #     # 获得所有图片下载连接，返回item
-    #     img_urls = response.xpath('//div[@class="content"]//img/@src').extract()
-    #     for img_url in img_urls:
-    #         self.img_urls.append(img_url)
-    #
-    #     item = MeituluItem()
-    #     item['title'] = response.xpath('//h1/text()').re(r'(.*)\s+\w+/\w+')[0]
-    #     item['image_urls'] = self.img_urls
-    #     yield item
-
-
-
-
+            tot_pic_num = response.xpath('//div[@class="c_l"]/p/text()').re(r'\d+\s+[\u5F20]')[0][:-1]
+            base_pic_url = response.xpath('//div[@class="content"]/center/img/@src').extract_first()[:-5]
+            pic_urls = [base_pic_url + '{}.jpg'.format(i) for i in range(1,int(tot_pic_num)+1) ]
+            item['url'] = response.url
+            item['image_urls'] = pic_urls
+            yield item
+        except Exception as e:
+            print(e)
 
 

@@ -13,3 +13,4 @@ class MeituluItem(scrapy.Item):
     # name = scrapy.Field()
     title = scrapy.Field()
     url = scrapy.Field()
+    image_urls = scrapy.Field()
