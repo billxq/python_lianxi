@@ -9,12 +9,12 @@ from meitulu.items import MeituluItem
 
 class MeituluSpider(CrawlSpider):
     title = ''
-    urllist = list()
+    img_urls = list()
     name = 'Meitulu'
     allowed_domains = ['www.meitulu.com']
     start_urls = ['https://www.meitulu.com/t/toutiaonvshen/']
 
-    pagelink = LinkExtractor(restrict_xpaths='//div[@id="pages"]//a[last()]',allow=r'/\w+.html')
+    pagelink = LinkExtractor(restrict_xpaths='//div[@id="pages"]//a[last()]',allow=r'/\w+.html',deny=r'/\w+_\w+.html')
     rules = [
         Rule(pagelink, callback = "parse_picset_url", follow=True)
     ]
@@ -24,26 +24,30 @@ class MeituluSpider(CrawlSpider):
         for each in response.xpath('//div[@class="boxs"]'):
             set_urls = each.xpath('./ul/li/a/@href').extract()
             for set_url in set_urls:
-                yield scrapy.Request(set_url,callback=self.parse_detail)
+                yield scrapy.Request(set_url,callback=self.parse_item)
 
 
-    def parse_detail(self,response):
-        for each in response.xpath('//body').xpath('./div[@class="content"]'):
-            pic_urls = each.xpath('.//img/@src').extract()
-            for pic_url in pic_urls:
-                self.urllist.append(pic_url)
-
-        if response.xpath('//div[@id="pages"]//a[last()]/text()').extract()[0] == "下一页":
-            rel_url = response.xpath('//div[@id="pages"]//a[last()]/@href').extract()[0]
-            next_url = urljoin('https://www.meitulu.com/',rel_url)
-            yield scrapy.Request(next_url,callback=self.parse_detail)
-
-        if response.xpath('//body').xpath('.//h1/text()').re(r'(.*?)\w+/\w+'):
-            self.title = response.xpath('//body').xpath('.//h1/text()').re(r'(.*?)\w+/\w+')[0]
-        return self.title, self.urllist
-
-    def deal_item(self):
+    def parse_item(self,response):
         item = MeituluItem()
-        item['title'] = self.title
-        item['url'] = self.urllist
+        item['title'] = response.xpath('//title/text()').extract_first(default="N/A")
+        item['url'] = response.url
+
+        if response.xpath('//div[@id="pages"]//a[last()-1]/text()'):
+            max_num = response.xpath('//div[@id="pages"]//a[last()-1]/text()').extract_first(default="N/A")
+
+        page_urls = [ response.url[:-5] + '_{}.html'.format(i) for i in range(2,int(max_num)+1)]
+        for page_url in page_urls:
+            yield scrapy.Request(page_url,callback=self.img_url)
+        item['image_urls'] = self.img_urls
         yield item
+
+    def img_url(self,response):
+        img_urls = response.xpath('//div[@class="content"]//img/@src').extract()
+        for img_url in img_urls:
+            self.img_urls.append(img_url)
+
+
+
+
+
+
