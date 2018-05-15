@@ -34,6 +34,7 @@ def get_details(url,data):
     hotel_list = r['HotelPostionView']  # 找到关于酒店的键值
     for hotel_info in hotel_list:
         hotel_data = {
+            "id": hotel_info['id'],
             "name": hotel_info['name'],
             "address": hotel_info['address'],
             "image_url": hotel_info['img'],
@@ -49,5 +50,5 @@ if __name__ == '__main__':
         data = get_data(i)
         results = get_details(url,data)
         for result in results:
-            r.lpush("hotel_info",result)
+            r.hmset(result['id'],result)
         time.sleep(2)

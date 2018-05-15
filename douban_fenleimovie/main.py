@@ -5,8 +5,10 @@
 # @file: main.py
 import csv
 import os
+import time
 from urllib.parse import urlencode
 import requests
+from multiprocessing import Pool,cpu_count
 
 headers = {
     "Accept": "application/json, text/plain, */*",
@@ -17,12 +19,12 @@ headers = {
 
 
 
-def getPage(start):
+def getPage(start,genres):
     parms = {
         "sort": "T",
         "range": "0, 10",
         "start": start,
-        "genres": "犯罪"
+        "genres": genres
     }
     url = 'https://movie.douban.com/j/new_search_subjects?' + urlencode(parms)
     try:
@@ -49,27 +51,39 @@ def parsePage(json):
         }
 
 
-
-
-def saveToCsv(result):
-    file = './movie.csv'
+def saveToCsv(result,genres):
+    file = './movie_{}.csv'.format(genres)
     if not os.path.isfile(file):
-        with open('./movie.csv','w') as f:
+        with open(file,'w') as f:
             fieldnames = ['title','url','directors','casts','rate','star']
             writer = csv.DictWriter(f,fieldnames=fieldnames)
             writer.writeheader()
             writer.writerow(result)
     else:
-        with open('./movie.csv','a') as f:
+        with open(file,'a') as f:
             fieldnames = ['title','url','directors','casts','rate','star']
             writer = csv.DictWriter(f,fieldnames=fieldnames)
             writer.writerow(result)
 
 
-if __name__ == '__main__':
-    for start in range(0,10001,20):  # 不知道最大多少页，所以设了一个很大的值，然后判断网页返回是否为None来做判断
-        json = getPage(start)
-        if json:
+def main(genres):
+    print("Getting info from {}".format(genres))
+    for start in range(0,101,20):  # 不知道最大多少页，所以设了一个很大的值，然后判断网页返回是否为None来做判断
+        if start == 0:
+            page = 1
+        page = start / 20
+        json = getPage(start,genres)
+        if not json:
+            exit(1)
+        else:
             results = parsePage(json)
             for result in results:
-                saveToCsv(result)
+                saveToCsv(result,genres)
+            print("Writing Page {}".format(int(page)+1))
+            time.sleep(1)
+
+if __name__ == '__main__':
+    Genres_list = ["剧情", "喜剧", "动作", "爱情", "科幻", "悬疑", "惊悚", "恐怖", "犯罪", "同性", "音乐", "歌舞", "传记", "历史", "战争", "西部", "奇幻",
+                   "冒险", "灾难", "武侠", "情色"]
+    pool = Pool(processes=cpu_count())
+    pool.map(main,Genres_list)

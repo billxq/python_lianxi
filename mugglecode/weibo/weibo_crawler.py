@@ -93,6 +93,6 @@ if __name__ == '__main__':
     driver = start_chrome()
     driver.get(login_url)
     time.sleep(20)
-    q_url = q("中兴","2018-05-01:2018-05-01")
-    main(q_url,"中兴")
+    q_url = q("杨幂","2018-05-01:2018-05-01")
+    main(q_url,"杨幂")
 
