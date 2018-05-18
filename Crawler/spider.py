@@ -31,3 +31,4 @@ class Spider(object):
 
     @staticmethod
     def boot():
+
