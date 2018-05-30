@@ -10,7 +10,7 @@ Base = declarative_base()
 
 class CreateTable(object):
     def getEngine(self):
-        self.engine = create_engine("mysql+pymysql://alchemy:123456@fishxq.gicp.net:6106/sqlalchemy?charset=utf8", echo=True)
+        self.engine = create_engine("mysql+pymysql://alchemy:123456@fishxq.gicp.net:6106/sqlalchemy?charset=utf8")
         return self.engine
     def createTb(self):
         # 创建一个表用于存储dictionary.txt中的数据

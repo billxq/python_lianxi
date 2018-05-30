@@ -34,5 +34,5 @@ class WriteToDB(object):
             self.session.close()
 
 
-writetodb = WriteToDB()
-writetodb.writeData('dictionary.txt')
+# writetodb = WriteToDB()
+# writetodb.writeData('dictionary.txt')
