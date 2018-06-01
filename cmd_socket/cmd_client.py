@@ -19,10 +19,10 @@ while 1:
         break
     sc.send(bytes(data,"utf-8"))    # 发送命令给服务端
     result_len = str(sc.recv(1024),"utf8")
-    data = bytes()  # 初始化一个data，用于接收完整的命令结果
-    while len(data) != int(result_len):
-        data += sc.recv(1024)
-    print(str(data,"utf8"))
+    result = bytes()  # 初始化一个data，用于接收完整的命令结果
+    while len(result) != int(result_len):
+        result += sc.recv(1024)
+    print(str(result,"utf8"))
 
 
 
