@@ -22,7 +22,7 @@ while 1:
     result = bytes()  # 初始化一个data，用于接收完整的命令结果
     while len(result) != int(result_len):
         result += sc.recv(1024)
-    print(str(result,"utf8"))
+    print(str(result,"gbk"))
 
 
 
